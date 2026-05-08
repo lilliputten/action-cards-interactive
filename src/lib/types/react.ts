@@ -4,6 +4,7 @@ import React from 'react';
 
 export type TReactPrimitive = string | number | boolean;
 export type TReactNode = React.ReactNode | TReactPrimitive;
+export type TReactNodes = TReactNode[];
 
 export interface TPropsWithClassName {
   className?: string;

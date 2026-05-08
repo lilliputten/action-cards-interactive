@@ -44,8 +44,12 @@ export default [
     ignores: [
       // Ignore `.gitignore` specified fiels etc...
       ...readGitignoreFiles({ cwd: __dirname }),
-      'dist/**',
       '.next/**',
+      '.utils/**',
+      'build/**',
+      'dist/**',
+      'public/**',
+      'static/**',
     ],
   },
 
