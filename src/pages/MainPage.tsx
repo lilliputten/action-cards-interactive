@@ -2,6 +2,7 @@ import React from 'react';
 
 import { cn } from '@/lib/helpers';
 import { ErrorLike } from '@/lib/types/ErrorLike';
+import { Actions } from '@/components';
 import { isDev } from '@/config';
 import { CardsGrid } from '@/features/cards';
 
@@ -80,6 +81,7 @@ export function MainPage(props: TProps) {
         </div>
         */}
       </div>
+      <Actions />
     </div>
   );
 }

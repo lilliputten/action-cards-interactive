@@ -48,7 +48,7 @@ export function CardsGrid(props: TProps) {
         className,
       )}
     >
-      {cardsData.map(({ content, explanation, resume }, idx) => {
+      {cardsData.map((_card, idx) => {
         return (
           <Card
             key={`card-${idx}`}
