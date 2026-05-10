@@ -30,7 +30,7 @@ export function Actions({ className }: TActionsProps) {
         isDev && '__Actions', // DEBUG
         'fixed',
         'select-none',
-        'right-4 bottom-4',
+        'right-2 bottom-2',
         'h-[3em]',
         'flex items-stretch justify-center gap-2',
         'z-20',
@@ -40,7 +40,7 @@ export function Actions({ className }: TActionsProps) {
       <NavIcon
         className={cn(
           isDev && '__Actions_Fullscreen', // DEBUG
-          'bg-blue-500',
+          'bg-(--noDarkColor)/50',
         )}
         title="Полноэкранный режим"
         onClick={toggleFullscreen}
@@ -66,12 +66,12 @@ function NavIcon(props: TIconProps) {
       className={cn(
         isDev && '__Actions_NavIcon', // DEBUG
         'flex items-center justify-center',
-        'size-[2em]',
+        'size-[1.5em]',
         'text-white',
         'rounded-full shadow-lg/30',
         'transition',
         'cursor-pointer',
-        'opacity-80',
+        'opacity-70',
         'hover:opacity-100',
         'p-2',
         disabled && 'disabled pointer-events-none opacity-25',

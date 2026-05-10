@@ -18,9 +18,9 @@ export function CardsGrid(props: TProps) {
   const [activeCardIdx, setActiveCardIdx] = React.useState<number | undefined>(
     defaultActiveCardIdx,
   );
-  const resetActiveCard = React.useCallback(() => setActiveCardIdx(undefined), []);
+  // Effect: Deactivate
   React.useEffect(() => {
-    if (activeCardIdx) {
+    if (activeCardIdx != undefined) {
       const resetActiveCard = () => setActiveCardIdx(undefined);
       const handleEsc = (event: KeyboardEvent) => {
         if (event.key === 'Escape') {
@@ -34,7 +34,7 @@ export function CardsGrid(props: TProps) {
         document.removeEventListener('keydown', handleEsc);
       };
     }
-  }, [activeCardIdx, resetActiveCard]);
+  }, [activeCardIdx]);
   return (
     <div
       className={cn(
@@ -43,7 +43,7 @@ export function CardsGrid(props: TProps) {
         'grid-cols-[repeat(auto-fill,minmax(var(--cardWidth),1fr))]',
         'items-stretch justify-center',
         'gap-6',
-        'p-6',
+        'p-10',
         'auto-rows-(--cardHeight)',
         className,
       )}

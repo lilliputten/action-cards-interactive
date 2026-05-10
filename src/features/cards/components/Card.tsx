@@ -1,3 +1,6 @@
+import React from 'react';
+import { MessageCircleQuestion, X } from 'lucide-react';
+
 import { cn } from '@/lib/helpers';
 import { isDev } from '@/config';
 
@@ -10,6 +13,8 @@ interface TProps {
   setActive: (active: boolean) => void;
 }
 
+type TShowMode = 'content' | 'explanation' | 'resume';
+
 export function Card(props: TProps) {
   const { className, idx, active, setActive } = props;
   const card = cardsData[idx];
@@ -17,7 +22,28 @@ export function Card(props: TProps) {
   if (!card) {
     throw new Error(`Nop card found for index ${idx}`);
   }
+  const scrollContainerRef = React.useRef<HTMLDivElement>(null);
+  const [showMode, setShowMode] = React.useState<TShowMode>('content');
+  // Effect: Reset state on open/close
+  React.useEffect(() => setShowMode('content'), [active]);
+  // Effect: Reset scroll on mode change
+  React.useEffect(() => {
+    const node = scrollContainerRef.current;
+    if (node) {
+      node.scrollTop = 0;
+    }
+  }, [showMode, scrollContainerRef]);
   const { content, explanation, resume } = card;
+  const isContent = !active || showMode === 'content';
+  const isExplanation = showMode === 'explanation';
+  const isResume = showMode === 'resume';
+  const showContent = isContent ? content : isExplanation ? explanation : resume;
+  const ButtonIcon = isResume ? X : MessageCircleQuestion;
+  const buttonText = isContent
+    ? 'Узнать, что не так'
+    : isExplanation
+      ? 'Узнать, как поправить'
+      : 'Закрыть';
   return (
     <div
       data-card-idx={idx}
@@ -43,6 +69,7 @@ export function Card(props: TProps) {
         className={cn(
           isDev && '__Card_Wrapper', // DEBUG
           'flex w-full flex-1 flex-col items-center justify-center',
+          'gap-4',
           'relative',
           'bg-(--cardBgColor)',
           'border-1 border-(--noDarkColor)',
@@ -51,7 +78,8 @@ export function Card(props: TProps) {
           'shadow-md',
           'transition',
           !active && 'cursor-pointer hover:opacity-80',
-          active && 'z-10 scale-120 shadow-xl max-sm:scale-110 lg:scale-115',
+          active && 'z-10 scale-130 shadow-xl max-sm:scale-115', // xl:scale-135',
+          active && 'max-w-[85%] max-sm:max-w-[100%]',
         )}
         onClick={(ev) => {
           ev.preventDefault();
@@ -65,27 +93,116 @@ export function Card(props: TProps) {
             'flex flex-col items-center justify-center',
             'absolute shadow-sm',
             'top-[-0.5em] left-[-0.5em]',
-            'bg-gradient-to-b',
-            'from-(--noLightColor) to-(--noDarkColor)',
-            'h-[2em]',
-            'w-[2em]',
+            'bg-gradient-to-b from-(--noLightColor) to-(--noDarkColor)',
+            'h-[2em] w-[2em]',
             'rounded-md',
             'select-none',
           )}
         >
           {cardNo}
         </div>
+        {active && (
+          <div
+            className={cn(
+              isDev && '__Card_Close', // DEBUG
+              'flex flex-col items-center justify-center',
+              'absolute shadow-sm',
+              'right-[-0.4em] bottom-[-0.4em]',
+              'rounded-full',
+              'cursor-pointer',
+              'transition',
+              // 'bg-(--noDarkColor)',
+              'bg-gradient-to-b from-(--noLightColor) to-(--noDarkColor)',
+              'text-white',
+              'h-[1.7em] w-[1.7em]',
+              'select-none',
+              'overflow-hidden',
+            )}
+            onClick={(ev) => {
+              ev.preventDefault();
+              ev.stopPropagation();
+              setActive(false);
+            }}
+          >
+            <div
+              className={cn(
+                isDev && '__Card_Close_Hover', // DEBUG
+                'absolute inset-0',
+                'transition',
+                'bg-(--bgDarkColor)',
+                'opacity-30',
+                'hover:opacity-50',
+              )}
+            />
+            <X className="pointer-events-none z-5 size-5 shrink-0" />
+          </div>
+        )}
         <div
+          ref={scrollContainerRef}
           className={cn(
             isDev && '__Card_Content', // DEBUG
-            'card-content',
-            'flex w-full flex-1 flex-col items-center justify-center',
+            'card-content', // NOTE: To styilyze nested content
+            'flex w-full flex-col',
+            'gap-4',
+            'box-border',
+            'max-h-(--cardHeight)',
             'text-center',
-            'content-truncate',
-            'select-none',
+            !active && 'select-none',
+            'overflow-auto',
           )}
         >
-          {content}
+          <div
+            className={cn(
+              isDev && '__Card_ContentWrapper', // DEBUG
+              'flex w-full flex-col items-center',
+              'py-4',
+            )}
+          >
+            <div
+              className={cn(
+                isDev && '__Card_ContentText', // DEBUG
+                !isContent && 'text-[72%]',
+              )}
+            >
+              {showContent}
+            </div>
+            {active && (
+              <div
+                className={cn(
+                  isDev && '__Card_Actions', // DEBUG
+                  'flex w-full items-center justify-center',
+                  'content-truncate',
+                  'shrink-0',
+                  'pt-4',
+                )}
+              >
+                <div
+                  className={cn(
+                    isDev && '__Card_Action', // DEBUG
+                    'btn flex items-center gap-2',
+                    'bg-(--bgDarkColor)/30 hover:bg-(--bgDarkColor)/50',
+                    'content-truncate',
+                    'select-none',
+                    'text-sm',
+                  )}
+                  onClick={(ev) => {
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                    if (isContent) {
+                      setShowMode('explanation');
+                    } else if (isExplanation) {
+                      setShowMode('resume');
+                    } else {
+                      setActive(false);
+                    }
+                  }}
+                >
+                  <ButtonIcon className="size-5 shrink-0" />
+                  <span className="truncate">{buttonText}</span>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

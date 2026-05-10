@@ -4,7 +4,7 @@ export interface TCard {
   /** Default card content */
   content: TReactNode;
   /** "What's wrong" text */
-  explanation: TReactNodes;
+  explanation: TReactNode;
   /** "To fix" text */
-  resume: TReactNodes;
+  resume: TReactNode;
 }
