@@ -1,24 +1,25 @@
 import React from 'react';
-import { Check, LoaderCircle } from 'lucide-react';
-import { toast } from 'react-toastify';
 
-import { cn, getErrorText } from '@/lib/helpers';
+import { cn } from '@/lib/helpers';
 import { ErrorLike } from '@/lib/types/ErrorLike';
-import { appTitle, isDev } from '@/config';
+import { isDev } from '@/config';
+import { CardsGrid } from '@/features/cards';
 
-const __debugUseDemoData = isDev && false;
+interface TProps {
+  className?: string;
+}
 
-export function MainPage() {
-  const [error, setError] = React.useState<ErrorLike>();
-  const [isCreating, setIsCreating] = React.useState(false);
-  const [hasCreated, setHasCreated] = React.useState(false);
+export function MainPage(props: TProps) {
+  const { className } = props;
+
+  const [error, _setError] = React.useState<ErrorLike>();
 
   return (
     <div
       className={cn(
         isDev && '__MainPage', // DEBUG
         'flex w-full flex-col self-center',
-        'max-w-md',
+        className,
       )}
     >
       <div
@@ -37,26 +38,11 @@ export function MainPage() {
             {String(error)}
           </div>
         )}
-        {!!appTitle && (
-          <h1
-            className={cn(
-              isDev && '__MainPage_Title', // DEBUG
-              'content-truncate m-0',
-              'text-[1.5rem]',
-            )}
-          >
-            {appTitle}
-          </h1>
-        )}
-        <ul
+        <CardsGrid
           className={cn(
-            isDev && '__MainPage_Cards', // DEBUG
-            'content-truncate animation m-0 flex flex-col gap-1 p-0',
-            isCreating && 'disabled',
+            isDev && '__MainPage_CardsGrid', // DEBUG
           )}
-        >
-          Cards
-        </ul>
+        />
         {/* // UNUSED: Actions
         <div
           className={cn(
