@@ -13,7 +13,7 @@ It's a simple pharmacy wahrehouse trainer.
 
 ## Build info (auto-generated)
 
-- Project info: v.0.0.1 / 2026.05.11 01:05:34 +0300
+- Project info: v.0.0.2 / 2026.05.12 12:39:54 +0300
 
 ## Resources
 
