@@ -95,6 +95,7 @@ export function Card(props: TProps) {
             'top-[-0.5em] left-[-0.5em]',
             'bg-gradient-to-b from-(--noLightColor) to-(--noDarkColor)',
             'h-[2em] w-[2em]',
+            'text-white',
             'rounded-md',
             'select-none',
           )}
@@ -113,7 +114,6 @@ export function Card(props: TProps) {
               'transition',
               // 'bg-(--noDarkColor)',
               'bg-gradient-to-b from-(--noLightColor) to-(--noDarkColor)',
-              'text-white',
               'h-[1.7em] w-[1.7em]',
               'select-none',
               'overflow-hidden',
@@ -134,7 +134,7 @@ export function Card(props: TProps) {
                 'hover:opacity-50',
               )}
             />
-            <X className="pointer-events-none z-5 size-5 shrink-0" />
+            <X className="pointer-events-none z-5 size-5 shrink-0 text-white" />
           </div>
         )}
         <div
@@ -149,6 +149,7 @@ export function Card(props: TProps) {
             'text-center',
             !active && 'select-none',
             'overflow-auto',
+            'text-white',
           )}
         >
           <div
