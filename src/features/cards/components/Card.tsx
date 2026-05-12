@@ -161,7 +161,7 @@ export function Card(props: TProps) {
             <div
               className={cn(
                 isDev && '__Card_ContentText', // DEBUG
-                !isContent && 'text-[72%]',
+                !isContent && 'text-[80%]',
               )}
             >
               {showContent}

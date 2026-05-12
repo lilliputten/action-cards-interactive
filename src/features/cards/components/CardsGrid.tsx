@@ -35,6 +35,8 @@ export function CardsGrid(props: TProps) {
       };
     }
   }, [activeCardIdx]);
+
+  // NOTE: See cols/rows congiruations parameters (`--cardWidth`, `--cardHeight`) in the `src/globals.css`
   return (
     <div
       className={cn(
